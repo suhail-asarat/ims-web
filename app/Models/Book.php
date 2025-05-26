@@ -14,7 +14,7 @@ class Book extends Model
         'book_name',
         'book_author',
         'book_price',
-        'book_category',
+        'book_genre',
         'book_cover_link',
         'book_pages',
         'book_isbn_10',

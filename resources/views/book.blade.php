@@ -10,7 +10,7 @@
         <div class="flex-1 flex flex-col">
             <h2 class="text-2xl font-bold mb-2">{{ $book->book_name }}</h2>
             <p class="text-gray-700 mb-1"><span class="font-semibold">Author:</span> {{ $book->book_author }}</p>
-            <p class="text-gray-700 mb-1"><span class="font-semibold">Genre:</span> {{ $book->book_genre ?? $book->book_category }}</p>
+            <p class="text-gray-700 mb-1"><span class="font-semibold">Genre:</span> {{ $book->book_genre }}</p>
             <p class="text-gray-700 mb-1"><span class="font-semibold">Price:</span> <span class="text-blue-700 font-semibold">৳ {{ $book->book_price }}</span></p>
             <p class="text-gray-700 mb-1"><span class="font-semibold">Pages:</span> {{ $book->book_pages }}</p>
             <p class="text-gray-700 mb-1"><span class="font-semibold">ISBN-10:</span> {{ $book->book_isbn_10 }}</p>
