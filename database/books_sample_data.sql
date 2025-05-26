@@ -1,3 +1,18 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Feb 12, 2024 at 09:25 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+
 INSERT INTO `books` (`book_id`, `book_name`, `book_author`, `book_price`, `book_genre`, `book_cover_link`, `book_pages`, `book_isbn_10`, `book_isbn_13`, `book_publication_date`) VALUES
 (2, 'The Alchemist', 'Paulo Coelho', 200.00, 'Novel', 'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1654371463i/18144590.jpg', NULL, NULL, NULL, NULL),
 (3, 'Sherlock Holmes', 'Arthur Conan Doyle', 500.00, 'Novel', 'https://pictures.abebooks.com/inventory/31095529984.jpg', NULL, NULL, NULL, NULL),
