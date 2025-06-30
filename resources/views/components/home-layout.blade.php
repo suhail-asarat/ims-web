@@ -3,6 +3,7 @@
     $books = Book::limit(8)->get();
     $genres = Book::genres();
     $authors = Book::authors();
+    $publishers = Book::publishers();
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -49,15 +50,24 @@
     <main class="max-w-7xl mx-auto py-8 px-4">
         <section class="mb-12">
             <h2 class="text-xl font-semibold mb-4 text-blue-800">Featured Books</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
                 @foreach($books as $book)
-                <a href="{{ url('/book/'.$book->book_id) }}" class="bg-white rounded-lg shadow p-4 flex flex-col hover:shadow-lg transition">
-                    <img src="{{ $book->book_cover_link }}" alt="{{ $book->book_name }}" class="mb-3 rounded h-48 object-cover">
-                    <h3 class="font-bold text-lg mb-1">{{ $book->book_name }}</h3>
-                    <p class="text-gray-600 mb-2">{{ $book->book_author }}</p>
-                    <span class="text-blue-700 font-semibold mb-2">৳ {{ $book->book_price }}</span>
-                    <button class="mt-auto bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">View Details</button>
-                </a>
+                <div class="relative group bg-white rounded-lg shadow overflow-hidden flex flex-col items-center justify-center h-64">
+                    @if($book->book_cover_link)
+                        <img src="{{ $book->book_cover_link }}" alt="{{ $book->book_name }}" class="object-cover w-full h-full">
+                    @else
+                        <div class="flex items-center justify-center w-full h-full bg-blue-100">
+                            <span class="text-blue-700 text-center font-semibold p-4">{{ $book->book_name }}</span>
+                        </div>
+                    @endif
+                    <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <a href="{{ url('/book/'.$book->book_id) }}" class="mb-2 bg-white text-blue-700 px-4 py-2 rounded shadow hover:bg-blue-700 hover:text-white font-semibold transition">View</a>
+                        <form action="{{ url('/cart/add/'.$book->book_id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-800 font-semibold transition">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
                 @endforeach
             </div>
         </section>
@@ -66,12 +76,12 @@
             <div class="overflow-x-auto">
                 <div class="flex gap-4 min-w-max">
                     @foreach($genres as $genre)
-                    <div class="bg-white rounded-lg shadow p-4 flex flex-col items-center min-w-[140px]">
+                    <a href="{{ url('/genre/' . urlencode($genre)) }}" class="bg-white rounded-lg shadow p-4 flex flex-col items-center min-w-[140px] hover:shadow-lg transition-shadow">
                         <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mb-2">
                             <span class="text-2xl text-blue-700">📚</span>
                         </div>
                         <span class="font-medium text-gray-700">{{ $genre }}</span>
-                    </div>
+                    </a>
                     @endforeach
                 </div>
             </div>
@@ -80,23 +90,23 @@
             <h2 class="text-xl font-semibold mb-4 text-blue-800">Popular Authors</h2>
             <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
                 @foreach($authors as $author)
-                <div class="bg-white rounded-lg shadow p-4 flex flex-col items-center">
-                    <img src="https://ui-avatars.com/api/?name={{ urlencode($author) }}&background=0D8ABC&color=fff" alt="{{ $author }}" class="rounded-full w-16 h-16 mb-2">
-                    <span class="font-medium text-gray-700 text-center">{{ $author }}</span>
-                </div>
+                <a href="{{ url('/author/' . urlencode($author)) }}" class="bg-white rounded-lg shadow p-4 flex flex-col items-center hover:shadow-lg transition-shadow group">
+                    <img src="https://ui-avatars.com/api/?name={{ urlencode($author) }}&background=0D8ABC&color=fff" alt="{{ $author }}" class="rounded-full w-16 h-16 mb-2 group-hover:scale-110 transition-transform">
+                    <span class="font-medium text-gray-700 text-center group-hover:text-blue-700 transition-colors">{{ $author }}</span>
+                </a>
                 @endforeach
             </div>
         </section>
         <section>
             <h2 class="text-xl font-semibold mb-4 text-blue-800">Top Publishers</h2>
             <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
-                @foreach(['Prothoma','Ananya','Mawla Brothers','Agamee Prakashani','Bangla Academy','Sheba Prokashoni'] as $publisher)
-                <div class="bg-white rounded-lg shadow p-4 flex flex-col items-center">
-                    <div class="bg-gray-200 rounded w-16 h-16 flex items-center justify-center mb-2">
-                        <span class="text-lg text-gray-700">{{ $publisher[0] }}</span>
+                @foreach($publishers as $publisher)
+                <a href="{{ url('/publisher/' . urlencode($publisher)) }}" class="bg-white rounded-lg shadow p-4 flex flex-col items-center hover:shadow-lg transition-shadow group">
+                    <div class="bg-gray-200 rounded w-16 h-16 flex items-center justify-center mb-2 group-hover:bg-gray-300 transition-colors">
+                        <span class="text-lg text-gray-700 font-bold">{{ substr($publisher, 0, 1) }}</span>
                     </div>
-                    <span class="font-medium text-gray-700 text-center">{{ $publisher }}</span>
-                </div>
+                    <span class="font-medium text-gray-700 text-center group-hover:text-blue-700 transition-colors">{{ $publisher }}</span>
+                </a>
                 @endforeach
             </div>
         </section>

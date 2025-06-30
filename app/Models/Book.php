@@ -13,6 +13,7 @@ class Book extends Model
     protected $fillable = [
         'book_name',
         'book_author',
+        'book_publisher',
         'book_price',
         'book_genre',
         'book_cover_link',
@@ -39,6 +40,16 @@ class Book extends Model
             ->distinct()
             ->whereNotNull('book_author')
             ->pluck('book_author')
+            ->toArray();
+    }
+
+    public static function publishers(): array
+    {
+        return static::query()
+            ->select('book_publisher')
+            ->distinct()
+            ->whereNotNull('book_publisher')
+            ->pluck('book_publisher')
             ->toArray();
     }
 }
