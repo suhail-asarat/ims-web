@@ -6,15 +6,16 @@
     $publishers = Book::publishers();
 @endphp
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
     <meta charset="UTF-8">
     <title>{{ $title ?? 'Bookshop' }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 min-h-screen flex flex-col">
     <header class="bg-white shadow">
         <div class="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between">
             <!-- Left: Logo -->
@@ -27,27 +28,147 @@
             </span>
             <!-- Center: Navigation -->
             @include('components.nav-link')
-            <!-- Right: Cart and Sign In -->
+            <!-- Right: Cart and User Menu -->
             <div class="flex items-center space-x-4">
-                <a href="/cart"
-                          class="relative px-4 py-2 rounded-full font-medium transition
-                                 text-gray-700 hover:bg-blue-50 hover:text-blue-700 flex items-center">
-                           <svg xmlns="http://www.w3.org/2000/svg" class="inline-block mr-1" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                               <path d="M3 3h2l.4 2M7 13h10l4-8H5.4" stroke="#1E40AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                               <circle cx="9" cy="21" r="1" fill="#1E40AF"/>
-                               <circle cx="19" cy="21" r="1" fill="#1E40AF"/>
-                           </svg>
-                           <span>Cart</span>
-                       </a>
-                <a href="/login"
-                   class="relative px-4 py-2 rounded-full font-medium transition
-                          text-gray-700 hover:bg-blue-50 hover:text-blue-700">
-                    Sign In
-                </a>
+                @auth('customer')
+                    @php
+                        $cartCount = \App\Models\Cart::getCartCount(Auth::guard('customer')->user()->id);
+                    @endphp
+                    <a href="{{ route('cart.index') }}"
+                              class="relative px-4 py-2 rounded-full font-medium transition
+                                     text-gray-700 hover:bg-blue-50 hover:text-blue-700 flex items-center">
+                               <svg xmlns="http://www.w3.org/2000/svg" class="inline-block mr-1" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                   <path d="M3 3h2l.4 2M7 13h10l4-8H5.4" stroke="#1E40AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                   <circle cx="9" cy="21" r="1" fill="#1E40AF"/>
+                                   <circle cx="19" cy="21" r="1" fill="#1E40AF"/>
+                               </svg>
+                               <span>Cart</span>
+                               @if($cartCount > 0)
+                                   <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                       {{ $cartCount > 99 ? '99+' : $cartCount }}
+                                   </span>
+                               @endif
+                           </a>
+
+                    <!-- Customer Dropdown Menu -->
+                    <div class="relative" x-data="{ open: false }">
+                        <button @click="open = !open" class="flex items-center px-4 py-2 rounded-full font-medium transition text-gray-700 hover:bg-blue-50 hover:text-blue-700">
+                            <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            <span>{{ Auth::guard('customer')->user()->name }}</span>
+                            <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div x-show="open" @click.away="open = false" x-transition class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                            <a href="{{ route('customer.dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <svg class="w-4 h-4 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5v4" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 5v4" />
+                                </svg>
+                                Dashboard
+                            </a>
+                            <a href="{{ route('customer.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <svg class="w-4 h-4 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                                Edit Profile
+                            </a>
+                            <a href="{{ route('customer.orders') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <svg class="w-4 h-4 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                </svg>
+                                My Orders
+                            </a>
+                            <hr class="my-1">
+                            <form method="POST" action="{{ route('logout') }}" class="block">
+                                @csrf
+                                <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                    <svg class="w-4 h-4 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                    </svg>
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @elseauth('author')
+                    <a href="{{ route('cart.index') }}"
+                              class="relative px-4 py-2 rounded-full font-medium transition
+                                     text-gray-700 hover:bg-blue-50 hover:text-blue-700 flex items-center">
+                               <svg xmlns="http://www.w3.org/2000/svg" class="inline-block mr-1" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                   <path d="M3 3h2l.4 2M7 13h10l4-8H5.4" stroke="#1E40AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                   <circle cx="9" cy="21" r="1" fill="#1E40AF"/>
+                                   <circle cx="19" cy="21" r="1" fill="#1E40AF"/>
+                               </svg>
+                               <span>Cart</span>
+                           </a>
+
+                    <!-- Author Dropdown Menu -->
+                    <div class="relative" x-data="{ open: false }">
+                        <button @click="open = !open" class="flex items-center px-4 py-2 rounded-full font-medium transition text-gray-700 hover:bg-blue-50 hover:text-blue-700">
+                            <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253z" />
+                            </svg>
+                            <span>{{ Auth::guard('author')->user()->name }}</span>
+                            <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div x-show="open" @click.away="open = false" x-transition class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                            <a href="{{ route('author.dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <svg class="w-4 h-4 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
+                                </svg>
+                                Dashboard
+                            </a>
+                            <a href="{{ route('author.manuscripts') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <svg class="w-4 h-4 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                </svg>
+                                My Manuscripts
+                            </a>
+                            <hr class="my-1">
+                            <form method="POST" action="{{ route('logout') }}" class="block">
+                                @csrf
+                                <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                    <svg class="w-4 h-4 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                    </svg>
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @else
+                    <a href="{{ route('cart.index') }}"
+                              class="relative px-4 py-2 rounded-full font-medium transition
+                                     text-gray-700 hover:bg-blue-50 hover:text-blue-700 flex items-center">
+                               <svg xmlns="http://www.w3.org/2000/svg" class="inline-block mr-1" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                   <path d="M3 3h2l.4 2M7 13h10l4-8H5.4" stroke="#1E40AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                   <circle cx="9" cy="21" r="1" fill="#1E40AF"/>
+                                   <circle cx="19" cy="21" r="1" fill="#1E40AF"/>
+                               </svg>
+                               <span>Cart</span>
+                           </a>
+
+                    <!-- Guest User - Sign In Link -->
+                    <a href="{{ route('login') }}"
+                       class="relative px-4 py-2 rounded-full font-medium transition
+                              text-gray-700 hover:bg-blue-50 hover:text-blue-700">
+                        Sign In
+                    </a>
+                @endauth
             </div>
         </div>
     </header>
-    <main class="max-w-7xl mx-auto py-8 px-4">
+    <main class="flex-grow max-w-7xl mx-auto py-8 px-4 w-full">
         <section class="mb-12">
             <h2 class="text-xl font-semibold mb-4 text-blue-800">Featured Books</h2>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
@@ -111,8 +232,19 @@
             </div>
         </section>
     </main>
-    <footer class="bg-white border-t mt-12 py-4 text-center text-gray-500">
-        &copy; {{ date('Y') }} Bookshop IMS. All rights reserved.
+    <footer class="bg-white border-t mt-auto">
+        <div class="max-w-7xl mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-gray-600">&copy; {{ date('Y') }} Bookshop IMS. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="/about" class="text-gray-600 hover:text-blue-600 transition">About</a>
+                    <a href="/contact" class="text-gray-600 hover:text-blue-600 transition">Contact</a>
+                    <a href="/blog" class="text-gray-600 hover:text-blue-600 transition">Blog</a>
+                </div>
+            </div>
+        </div>
     </footer>
 </body>
 </html>

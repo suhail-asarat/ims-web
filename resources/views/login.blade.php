@@ -1,8 +1,4 @@
 <x-layout>
-    <x-slot:heading>
-        Sign In
-    </x-slot:heading>
-
     <div class="max-w-md mx-auto">
         <!-- Success Message -->
         @if(session('success'))

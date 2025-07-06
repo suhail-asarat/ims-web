@@ -11,7 +11,20 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // Add CSRF exceptions for SSLCOMMERZ payment callbacks
+        $middleware->validateCsrfTokens(except: [
+            '/payment/success',
+            '/payment/fail',
+            '/payment/cancel',
+            '/payment/ipn',
+            '/pay-via-ajax',
+        ]);
+
+        // Register custom middleware
+        $middleware->alias([
+            'prevent.cross.access' => \App\Http\Middleware\PreventCrossUserAccess::class,
+            'restrict.author.access' => \App\Http\Middleware\RestrictAuthorAccess::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

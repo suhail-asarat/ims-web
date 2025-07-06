@@ -1,4 +1,4 @@
-<x-layout>
+<x-auth-layout>
     <x-slot:heading>
         Authors
     </x-slot:heading>
@@ -12,4 +12,4 @@
             </a>
         @endforeach
     </div>
-</x-layout>
+</x-auth-layout>

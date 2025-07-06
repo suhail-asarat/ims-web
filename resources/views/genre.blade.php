@@ -1,4 +1,4 @@
-<x-layout>
+<x-auth-layout>
     <x-slot:heading>
         {{ $genre }} Books
     </x-slot:heading>
@@ -38,4 +38,4 @@
             </a>
         </div>
     @endif
-</x-layout>
+</x-auth-layout>

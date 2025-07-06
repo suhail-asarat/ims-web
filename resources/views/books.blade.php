@@ -1,4 +1,4 @@
-<x-layout>
+<x-auth-layout>
     <x-slot:heading>
         Books
     </x-slot:heading>
@@ -23,4 +23,4 @@
         </div>
         @endforeach
     </div>
-</x-layout>
+</x-auth-layout>

@@ -1,4 +1,4 @@
-<x-layout>
+<x-auth-layout>
     <x-slot:heading>
         About Us
     </x-slot:heading>
@@ -132,4 +132,4 @@
             </div>
         </div>
     </div>
-</x-layout>
+</x-auth-layout>

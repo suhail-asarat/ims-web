@@ -16,6 +16,7 @@ class Customer extends Authenticatable
         'password',
         'phone',
         'address',
+        'is_active',
     ];
 
     protected $hidden = [
@@ -26,5 +27,14 @@ class Customer extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'is_active' => 'boolean',
     ];
+
+    /**
+     * Get the orders for the customer.
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

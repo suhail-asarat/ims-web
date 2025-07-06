@@ -3,7 +3,7 @@
     $genres = Book::genres();
 @endphp
 
-<x-layout>
+<x-auth-layout>
     <x-slot:heading>
         Genres
     </x-slot:heading>
@@ -19,4 +19,4 @@
             </a>
         @endforeach
     </div>
-</x-layout>
+</x-auth-layout>

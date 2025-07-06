@@ -1,4 +1,4 @@
-<x-layout>
+<x-auth-layout>
     <x-slot:heading>
         Publishers
     </x-slot:heading>
@@ -14,4 +14,4 @@
             </a>
         @endforeach
     </div>
-</x-layout>
+</x-auth-layout>

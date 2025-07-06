@@ -1,8 +1,4 @@
 <x-layout>
-    <x-slot:heading>
-        Create Account
-    </x-slot:heading>
-
     <div class="max-w-md mx-auto">
         <!-- Registration Form -->
         <div class="bg-white rounded-lg shadow-lg p-8">
