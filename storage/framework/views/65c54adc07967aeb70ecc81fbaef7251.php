@@ -125,14 +125,14 @@ unset($__errorArgs, $__bag); ?>
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
                                 Super Admin
                             </span>
-                            <button onclick="copyCredentials('superadmin@bookshop.com', 'admin123')"
+                            <button onclick="copyCredentials('superadmin@bookshop.com', 'password123')"
                                     class="text-xs text-blue-600 hover:text-blue-800 font-medium">
                                 Click to Copy
                             </button>
                         </div>
                         <div class="text-sm space-y-1">
                             <div><strong>Email:</strong> <span class="font-mono text-gray-700">superadmin@bookshop.com</span></div>
-                            <div><strong>Password:</strong> <span class="font-mono text-gray-700">admin123</span></div>
+                            <div><strong>Password:</strong> <span class="font-mono text-gray-700">password123</span></div>
                         </div>
                     </div>
 
@@ -142,14 +142,14 @@ unset($__errorArgs, $__bag); ?>
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
                                 Admin
                             </span>
-                            <button onclick="copyCredentials('admin@bookshop.com', 'admin123')"
+                            <button onclick="copyCredentials('admin@bookshop.com', 'password123')"
                                     class="text-xs text-blue-600 hover:text-blue-800 font-medium">
                                 Click to Copy
                             </button>
                         </div>
                         <div class="text-sm space-y-1">
                             <div><strong>Email:</strong> <span class="font-mono text-gray-700">admin@bookshop.com</span></div>
-                            <div><strong>Password:</strong> <span class="font-mono text-gray-700">admin123</span></div>
+                            <div><strong>Password:</strong> <span class="font-mono text-gray-700">password123</span></div>
                         </div>
                     </div>
 
@@ -157,16 +157,16 @@ unset($__errorArgs, $__bag); ?>
                     <div class="bg-white rounded-lg p-4 border border-blue-200">
                         <div class="flex items-center justify-between mb-2">
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                Moderator
+                                Editor
                             </span>
-                            <button onclick="copyCredentials('moderator@bookshop.com', 'admin123')"
+                            <button onclick="copyCredentials('editor@bookshop.com', 'password123')"
                                     class="text-xs text-blue-600 hover:text-blue-800 font-medium">
                                 Click to Copy
                             </button>
                         </div>
                         <div class="text-sm space-y-1">
-                            <div><strong>Email:</strong> <span class="font-mono text-gray-700">moderator@bookshop.com</span></div>
-                            <div><strong>Password:</strong> <span class="font-mono text-gray-700">admin123</span></div>
+                            <div><strong>Email:</strong> <span class="font-mono text-gray-700">editor@bookshop.com</span></div>
+                            <div><strong>Password:</strong> <span class="font-mono text-gray-700">password123</span></div>
                         </div>
                     </div>
                 </div>

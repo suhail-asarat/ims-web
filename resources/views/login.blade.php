@@ -41,6 +41,20 @@
                 </div>
             </div>
 
+            <!-- Demo Credentials Display -->
+            <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-sm font-medium text-blue-800">Demo Credentials</h3>
+                    <button type="button" id="use-demo-btn" class="text-xs bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition">
+                        Use Demo
+                    </button>
+                </div>
+                <div class="text-sm text-blue-700">
+                    <p><strong>Email:</strong> test@email.tld</p>
+                    <p><strong>Password:</strong> test1234</p>
+                </div>
+            </div>
+
             <form method="POST" action="{{ route('login.submit') }}" class="space-y-6">
                 @csrf
 
@@ -122,6 +136,13 @@
                 customerTab.classList.remove('bg-white', 'text-blue-600', 'shadow-sm');
                 customerTab.classList.add('text-gray-600');
                 userTypeInput.value = 'author';
+            });
+
+            // Demo button functionality
+            document.getElementById('use-demo-btn').addEventListener('click', function() {
+                // Set demo credentials
+                document.getElementById('email').value = 'test@email.tld';
+                document.getElementById('password').value = 'test1234';
             });
         });
     </script>

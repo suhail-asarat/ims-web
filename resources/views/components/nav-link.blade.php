@@ -1,19 +1,21 @@
 @php
+//    $basePath = '/ims-web/public';
+    $basePath = 'https://ims-web.test';
     $navLinks = [
-        ['label' => 'Home', 'href' => '/'],
-        ['label' => 'Books', 'href' => '/books'],
-        ['label' => 'Genres', 'href' => '/genres'],
-        ['label' => 'Authors', 'href' => '/authors'],
-        ['label' => 'Publishers', 'href' => '/publishers'],
-        ['label' => 'Blog', 'href' => '/blog'],
-        ['label' => 'About', 'href' => '/about'],
-        ['label' => 'Contact', 'href' => '/contact'],
+        ['label' => 'Home', 'href' => $basePath . '/'],
+        ['label' => 'Books', 'href' => $basePath . '/books'],
+        ['label' => 'Genres', 'href' => $basePath . '/genres'],
+        ['label' => 'Authors', 'href' => $basePath . '/authors'],
+        ['label' => 'Publishers', 'href' => $basePath . '/publishers'],
+        ['label' => 'Blog', 'href' => $basePath . '/blog'],
+        ['label' => 'About', 'href' => $basePath . '/about'],
+        ['label' => 'Contact', 'href' => $basePath . '/contact'],
     ];
 @endphp
 <nav class="flex-1 flex justify-center space-x-2">
     @foreach($navLinks as $link)
         @php
-            $active = request()->is(ltrim($link['href'], '/')) || ($link['href'] === '/' && request()->path() === '/');
+            $active = request()->is(ltrim(str_replace($basePath, '', $link['href']), '/')) || ($link['href'] === $basePath . '/' && request()->path() === ltrim($basePath . '/', '/'));
         @endphp
         <a href="{{ $link['href'] }}"
            class="relative px-4 py-2 rounded-full font-medium transition
