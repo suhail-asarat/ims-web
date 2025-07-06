@@ -113,6 +113,35 @@
                     </div>
                 <?php else: ?>
                     <!-- Guest User -->
+                    <!-- Download Dropdown -->
+                    <div class="relative mr-4" x-data="{ open: false }">
+                        <button @click="open = !open" class="flex items-center px-4 py-2 rounded-full font-medium transition text-gray-700 hover:bg-blue-50 hover:text-blue-700">
+                            <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Download
+                            <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        <div x-show="open" @click.away="open = false" x-transition class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                            <a href="https://github.com/suhail-asarat/ims-app" target="_blank" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                                <svg class="w-4 h-4 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M17.64 9.2a8.24 8.24 0 0 0-7.64-7.64 8.25 8.25 0 0 0-7.64 7.64 8.25 8.25 0 0 0 7.64 7.64 8.24 8.24 0 0 0 7.64-7.64zM12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/>
+                                    <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6z"/>
+                                </svg>
+                                Android App
+                            </a>
+                            <a href="https://github.com/suhail-asarat/ims-desktop" target="_blank" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center">
+                                <svg class="w-4 h-4 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                Desktop App
+                            </a>
+                        </div>
+                    </div>
+
                     <a href="<?php echo e(route('cart.index')); ?>"
                        class="relative px-4 py-2 rounded-full font-medium transition
                               text-gray-700 hover:bg-blue-50 hover:text-blue-700 flex items-center mr-4">
